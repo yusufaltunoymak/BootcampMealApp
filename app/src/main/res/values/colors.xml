@@ -2,4 +2,15 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="blue">#03A9F4</color>
+    <color name="orange">#FF9800</color>
+    <color name="DarkOrange">#FF5722</color>
+    <color name="MainOrangeStart">#FF533F</color>
+    <color name="MainOrangeEnd">#FF9340</color>
+    <color name="OrangeSolid">#FF4B40</color>
+    <color name="LightGrey">#F8F8F8</color>
+    <color name="gradient_button_start">#D2E0FB</color>
+    <color name="gradient_button_end">#6EB9F3</color>
+    <color name="clickableTextColor">#4285f4</color>
+
 </resources>

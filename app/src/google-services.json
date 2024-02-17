@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "731817613661",
+    "project_id": "mealsapp-409e0",
+    "storage_bucket": "mealsapp-409e0.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:731817613661:android:262c7b0acae542dc4930b4",
+        "android_client_info": {
+          "package_name": "com.example.bootcampmealapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "731817613661-r7f7ib9qqtmtk5oncuu8g4ann72vrgq6.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.bootcampmealapp",
+            "certificate_hash": "429015fc377411db16028c16f51470a2cca0b660"
+          }
+        },
+        {
+          "client_id": "731817613661-tmf1kh8gni4i3uir6q1ep4ebq0255muh.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDE2-T9yK3WcdFzTDl0BCe6zr2lAjAPo_8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "731817613661-tmf1kh8gni4i3uir6q1ep4ebq0255muh.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
