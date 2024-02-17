@@ -11,6 +11,11 @@
     <string name="sign_in_here_text">Sign In Here!</string>
     <string name="already_have_an_account_text">Already Have An Account?</string>
     <string name="meals_text">Meals</string>
+    <string name="detail_text">Detail</string>
+    <string name="minus_text">-</string>
+    <string name="plus_text">+</string>
+    <string name="detail_page_price_tv">%1\$d ₺</string>
+    <string name="add_to_card_text">Add To Card</string>
     <string name="emailFormatErrorText">Please enter a correct email address!</string>
     <string name="emailAlreadyRegistered">The email address is already in use by another account.</string>
     <string name="passwordFormatErrorText">Password should be 6 characters or longer!</string>

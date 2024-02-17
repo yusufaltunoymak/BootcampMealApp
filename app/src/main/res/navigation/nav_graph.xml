@@ -35,12 +35,20 @@
         android:id="@+id/homeFragment2"
         android:name="com.example.bootcampmealapp.presentation.ui.home.HomeFragment"
         android:label="fragment_home"
-        tools:layout="@layout/fragment_home" />
+        tools:layout="@layout/fragment_home" >
+        <action
+            android:id="@+id/action_homeFragment2_to_detailsFoodFragment"
+            app:destination="@id/detailsFoodFragment" />
+    </fragment>
     <fragment
         android:id="@+id/detailsFoodFragment"
         android:name="com.example.bootcampmealapp.presentation.ui.details.DetailsFoodFragment"
         android:label="fragment_details_food"
-        tools:layout="@layout/fragment_details_food" />
+        tools:layout="@layout/fragment_details_food" >
+        <argument
+            android:name="food"
+            app:argType="com.example.bootcampmealapp.domain.model.remote.FoodResponse" />
+    </fragment>
     <fragment
         android:id="@+id/signUpFragment"
         android:name="com.example.bootcampmealapp.presentation.ui.signup.SignUpFragment"

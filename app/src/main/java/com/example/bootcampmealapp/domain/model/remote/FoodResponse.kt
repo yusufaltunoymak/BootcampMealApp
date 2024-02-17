@@ -5,11 +5,11 @@ import java.io.Serializable
 
 data class FoodResponse(
     @SerializedName("yemek_adi")
-    val foodName: String?,
+    val foodName: String,
     @SerializedName("yemek_fiyat")
-    val foodPrice: String?,
+    val foodPrice: String,
     @SerializedName("yemek_resim_adi")
-    val foodImageUrl: String?,
+    val foodImageUrl: String,
     @SerializedName("yemek_id")
-    val foodId: String?
+    val foodId: String
 ) : Serializable

@@ -5,6 +5,7 @@ import android.view.View
 import android.widget.SearchView
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.bootcampmealapp.base.BaseFragment
 import com.example.bootcampmealapp.databinding.FragmentHomeBinding
@@ -16,7 +17,9 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
     private val homeViewModel : HomeViewModel by viewModels()
     private val homeAdapter by lazy {
         HomeAdapter {
-
+            findNavController().navigate(
+                HomeFragmentDirections.actionHomeFragment2ToDetailsFoodFragment(it)
+            )
         }
     }
 
