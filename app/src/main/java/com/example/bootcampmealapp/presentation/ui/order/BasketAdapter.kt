@@ -25,6 +25,9 @@ class BasketAdapter(
                 foodBasketQuantity.text = quantityText
                 Glide.with(context).load(Constants.IMAGE_BASE_URL+"${item.foodImageUrl}")
                     .into(foodBasketImage)
+                deleteIcon.setOnClickListener {
+                    onItemClicked.invoke(item)
+                }
 
             }
         }

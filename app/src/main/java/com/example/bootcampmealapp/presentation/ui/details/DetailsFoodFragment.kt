@@ -43,6 +43,10 @@ class DetailsFoodFragment : BaseFragment<FragmentDetailsFoodBinding>(FragmentDet
             addToBasketButton.setOnClickListener {
                 foodDetailsViewModel.addToCart()
             }
+            favoriteIcon.setOnClickListener {
+                foodDetailsViewModel.addToFavorite(food)
+                favoriteIcon.isSelected = true
+            }
 
         }
     }

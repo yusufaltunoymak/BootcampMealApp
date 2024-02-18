@@ -26,4 +26,11 @@ interface FoodApi {
     @POST("yemekler/sepettekiYemekleriGetir.php")
     @FormUrlEncoded
     suspend fun getBasketFoods(@Field("kullanici_adi") username : String) : GetFoodBasketResponse
+
+    @POST("yemekler/sepettenYemekSil.php")
+    @FormUrlEncoded
+    suspend fun deleteBasketFoods(
+        @Field("sepet_yemek_id") basketFoodId : Int,
+        @Field("kullanici_adi") username : String
+    ) : CRUDResponse
 }

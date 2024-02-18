@@ -1,10 +1,14 @@
 package com.example.bootcampmealapp.domain.di
 
+import android.content.Context
+import androidx.room.Room
+import com.example.bootcampmealapp.data.local.FoodDatabase
 import com.example.bootcampmealapp.data.remote.FoodApi
 import com.example.bootcampmealapp.util.Constants
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -37,4 +41,11 @@ object AppModule {
         .addConverterFactory(GsonConverterFactory.create())
         .build()
         .create(FoodApi::class.java)
+
+    @Provides
+    @Singleton
+    fun provideFoodDatabase(@ApplicationContext context : Context) : FoodDatabase {
+        return Room.databaseBuilder(context, FoodDatabase::class.java,"food_db")
+            .build()
+    }
 }

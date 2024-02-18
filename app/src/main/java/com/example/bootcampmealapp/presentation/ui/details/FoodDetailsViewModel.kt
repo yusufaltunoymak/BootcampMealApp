@@ -4,11 +4,13 @@ import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.bootcampmealapp.data.local.FoodEntity
 import com.example.bootcampmealapp.data.response.ResponseStatus
 import com.example.bootcampmealapp.domain.model.remote.FoodResponse
 import com.example.bootcampmealapp.domain.model.remote.basket.BasketFoods
 import com.example.bootcampmealapp.domain.usecases.AddToBasketUseCase
 import com.example.bootcampmealapp.domain.usecases.GetFoodBasketUseCase
+import com.example.bootcampmealapp.domain.usecases.InsertFoodToDatabaseUseCase
 import com.example.bootcampmealapp.util.Constants
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
@@ -21,7 +23,8 @@ import javax.inject.Inject
 @HiltViewModel
 class FoodDetailsViewModel @Inject constructor(
     private val addToBasketUseCase: AddToBasketUseCase,
-    private val getFoodBasketUseCase: GetFoodBasketUseCase
+    private val getFoodBasketUseCase: GetFoodBasketUseCase,
+    private val insertFoodToDatabaseUseCase: InsertFoodToDatabaseUseCase
 
 ) : ViewModel() {
     private var _viewState = MutableStateFlow(FoodDetailViewState())
@@ -150,6 +153,23 @@ class FoodDetailsViewModel @Inject constructor(
                     quantity = _viewState.value.piece
                 )
             }
+        }
+    }
+
+    fun addToFavorite(foods : FoodResponse) {
+        viewModelScope.launch {
+            val foodEntity = FoodEntity(
+                id = 0,
+                foodName =foods.foodName,
+                foodPrice = foods.foodPrice,
+                foodImageUrl = foods.foodImageUrl
+            )
+            _viewState.update {viewState ->
+                viewState.copy(
+                    isFavorited = true
+                )
+            }
+            insertFoodToDatabaseUseCase.invoke(foodEntity)
         }
     }
 }

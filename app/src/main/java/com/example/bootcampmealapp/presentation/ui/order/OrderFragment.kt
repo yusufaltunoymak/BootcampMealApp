@@ -17,7 +17,7 @@ class OrderFragment : BaseFragment<FragmentOrderBinding>(FragmentOrderBinding::i
 
     private val basketAdapter by lazy {
         BasketAdapter {
-
+            orderViewModel.deleteFoodFromBasket(it.id!!.toInt())
         }
     }
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

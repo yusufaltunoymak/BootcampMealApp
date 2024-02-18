@@ -1,5 +1,6 @@
 package com.example.bootcampmealapp.domain.repository
 
+import com.example.bootcampmealapp.data.local.FoodEntity
 import com.example.bootcampmealapp.data.response.Response
 import com.example.bootcampmealapp.domain.model.remote.FoodResponse
 import com.example.bootcampmealapp.domain.model.remote.basket.BasketFoods
@@ -16,5 +17,14 @@ interface FoodRepository {
     ): Flow<Response<Int>>
 
     suspend fun getFoodBasket(username : String) : Flow<Response<List<BasketFoods>>>
+
+    suspend fun deleteFoodFromBasket(basketFoodId : Int, username: String) : Flow<Response<Int>>
+
+    suspend fun getAllItemsStream() : Flow<List<FoodEntity>>
+
+    suspend fun insertFoodToDatabase(foodEntity: FoodEntity)
+
+    suspend fun deleteFoodFromDatabase(foodId: Int)
+
 
 }
