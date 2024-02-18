@@ -9,6 +9,7 @@ data class FoodDetailViewState(
     var price : Int = 0,
     val isAddedBasket : Int? = null,
     val basketFoods : List<BasketFoods>? = null,
+    val isCompleted : Boolean = false,
     val foods : FoodResponse? = null,
     val errorMessage: String? = null
 

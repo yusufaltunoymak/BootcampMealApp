@@ -11,6 +11,7 @@ import com.example.bootcampmealapp.R
 import com.example.bootcampmealapp.base.BaseFragment
 import com.example.bootcampmealapp.databinding.FragmentDetailsFoodBinding
 import com.example.bootcampmealapp.util.Constants
+import com.example.bootcampmealapp.util.components.CustomAlertDialogBuilder
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -55,6 +56,15 @@ class DetailsFoodFragment : BaseFragment<FragmentDetailsFoodBinding>(FragmentDet
                     isAddedBasket?.let {
                         if(it == 1) {
                             findNavController().navigate(R.id.homeFragment2)
+                        }
+                    }
+                    isCompleted.let {
+                        if(it) {
+                            CustomAlertDialogBuilder.createDialog(
+                                requireContext(),
+                                "deneme",
+                                "ok"
+                            )
                         }
                     }
                 }

@@ -12,6 +12,7 @@
     <string name="already_have_an_account_text">Already Have An Account?</string>
     <string name="meals_text">Meals</string>
     <string name="detail_text">Detail</string>
+    <string name="order_text">Order</string>
     <string name="minus_text">-</string>
     <string name="plus_text">+</string>
     <string name="detail_page_price_tv">%1\$d ₺</string>
@@ -21,6 +22,7 @@
     <string name="passwordFormatErrorText">Password should be 6 characters or longer!</string>
     <string name="passwordShortText">Password is too short</string>
     <string name="okText">OK</string>
-
+    <string name="price_text">Fiyat: </string>
+    <string name="quantity_text">Adet: </string>
 
 </resources>

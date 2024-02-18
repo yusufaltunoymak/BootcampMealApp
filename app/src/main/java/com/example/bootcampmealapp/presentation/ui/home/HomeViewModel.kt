@@ -20,8 +20,6 @@ class HomeViewModel @Inject constructor(
     val viewState = _viewState.asStateFlow()
     private val cacheList = mutableListOf<FoodResponse>()
 
-
-
     init {
         getAllFoods()
     }
@@ -61,7 +59,7 @@ class HomeViewModel @Inject constructor(
                         cacheList
                     } else {
                         cacheList.filter {
-                            it.foodName!!.lowercase().contains(searchQuery.lowercase())
+                            it.foodName.lowercase().contains(searchQuery.lowercase())
                         }
                     }
                 )

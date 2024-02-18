@@ -1,13 +1,17 @@
 package com.example.bootcampmealapp.presentation.ui.details
 
+import android.util.Log
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.bootcampmealapp.data.response.ResponseStatus
 import com.example.bootcampmealapp.domain.model.remote.FoodResponse
+import com.example.bootcampmealapp.domain.model.remote.basket.BasketFoods
 import com.example.bootcampmealapp.domain.usecases.AddToBasketUseCase
 import com.example.bootcampmealapp.domain.usecases.GetFoodBasketUseCase
 import com.example.bootcampmealapp.util.Constants
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
@@ -22,6 +26,8 @@ class FoodDetailsViewModel @Inject constructor(
 ) : ViewModel() {
     private var _viewState = MutableStateFlow(FoodDetailViewState())
     val viewState = _viewState.asStateFlow()
+    private var basketList: MutableLiveData<List<BasketFoods>> = MutableLiveData()
+
 
     fun initMeal(food: FoodResponse) {
         _viewState.update {
@@ -61,7 +67,7 @@ class FoodDetailsViewModel @Inject constructor(
             return@update viewState
         }
     }
-    fun addToBasket(
+    private fun addToBasket(
         username: String = Constants.USERNAME,
         quantity: Int,
         foodName: String,
@@ -93,16 +99,19 @@ class FoodDetailsViewModel @Inject constructor(
         }
     }
 
-    fun getFoodForBasket(username : String = Constants.USERNAME) {
+    private fun getFoodForBasket(username : String = Constants.USERNAME) {
         viewModelScope.launch {
             getFoodBasketUseCase.invoke(username).collect { response ->
                 when(response.status) {
                     ResponseStatus.LOADING -> {}
                     ResponseStatus.SUCCESS -> {
-                        _viewState.update { viewState ->
-                            viewState.copy(
-                                basketFoods = response.data
-                            )
+                        response.data?.let {
+                            basketList.value = it
+                            _viewState.update { viewState ->
+                                viewState.copy(
+                                    basketFoods = basketList.value,
+                                )
+                            }
                         }
                     }
                     else -> {}
@@ -112,26 +121,35 @@ class FoodDetailsViewModel @Inject constructor(
         }
     }
 
-        fun isAlreadyBasket(foodName: String) : Boolean {
-        val basketItems = viewState.value.basketFoods.orEmpty()
+        private fun isAlreadyBasket(foodName: String) : Boolean {
+        val basketItems = basketList.value.orEmpty()
         return basketItems.any { it.foodName == foodName }
 
     }
 
     fun addToCart() {
-        val meal = viewState.value.foods
+        val meal = viewState.value.foods ?: return
         viewModelScope.launch {
             getFoodForBasket()
-            if(!isAlreadyBasket(meal!!.foodName)) {
+            delay(1000)
+            if (isAlreadyBasket(meal.foodName)) {
+                Log.d("aynıürün","aynı")
+
+                _viewState.update {viewState ->
+                    viewState.copy(
+                        isCompleted = true
+                    )
+                }
+            }
+            else {
+                Log.d("buraya","buraya")
                 addToBasket(
                     foodName = meal.foodName,
                     foodImageName = meal.foodImageUrl,
                     foodPrice = meal.foodPrice.toInt(),
-                    quantity = viewState.value.piece
+                    quantity = _viewState.value.piece
                 )
             }
         }
     }
-
-
 }
