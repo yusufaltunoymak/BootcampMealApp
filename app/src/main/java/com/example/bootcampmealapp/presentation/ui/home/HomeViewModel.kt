@@ -5,6 +5,8 @@ import androidx.lifecycle.viewModelScope
 import com.example.bootcampmealapp.data.response.ResponseStatus
 import com.example.bootcampmealapp.domain.model.remote.FoodResponse
 import com.example.bootcampmealapp.domain.usecases.GetAllFoodsUseCase
+import com.google.firebase.Firebase
+import com.google.firebase.auth.auth
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -65,5 +67,9 @@ class HomeViewModel @Inject constructor(
                 )
             }
         }
+    }
+
+    fun signOut() {
+        Firebase.auth.signOut()
     }
 }

@@ -1,11 +1,9 @@
 package com.example.bootcampmealapp.presentation.ui.signin
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.bootcampmealapp.data.response.ResponseStatus
 import com.example.bootcampmealapp.domain.usecases.SignInWithEmailAndPasswordUseCase
-import com.google.firebase.auth.FirebaseAuth
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -16,8 +14,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class SignInViewModel @Inject constructor(
-    private val signInWithEmailAndPasswordUseCase: SignInWithEmailAndPasswordUseCase,
-    private val firebaseAuth : FirebaseAuth
+    private val signInWithEmailAndPasswordUseCase: SignInWithEmailAndPasswordUseCase
 ) : ViewModel() {
     private val _signInViewState : MutableStateFlow<SignInViewState> = MutableStateFlow(SignInViewState())
     val signInViewState : StateFlow<SignInViewState> = _signInViewState.asStateFlow()
@@ -25,14 +22,14 @@ class SignInViewModel @Inject constructor(
 
     fun signInWithEmailAndPassword(email : String, password : String){
         viewModelScope.launch {
-            signInWithEmailAndPasswordUseCase(email,password).collect(){ response ->
+            signInWithEmailAndPasswordUseCase(email,password).collect { response ->
                 when(response.status){
                     ResponseStatus.LOADING -> {
                         _signInViewState.update { viewState ->
                             viewState.copy(
                                 isLoading = true,
                                 errorMessage = null,
-                                isSignedIn = null
+                                isSignedIn = false
                             )
                         }
                     }
@@ -45,13 +42,12 @@ class SignInViewModel @Inject constructor(
                                 currentUser = response.data,
                             )
                         }
-                        Log.d("currentu", response.data.toString())
-
                     }
                     else -> {
                         _signInViewState.update { viewState ->
                             viewState.copy(
                                 isLoading = null,
+                                isSignedIn = false,
                                 errorMessage = response.message
                             )
                         }

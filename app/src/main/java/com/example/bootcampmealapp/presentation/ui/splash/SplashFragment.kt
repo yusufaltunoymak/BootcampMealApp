@@ -9,6 +9,7 @@ import androidx.navigation.fragment.findNavController
 import com.example.bootcampmealapp.R
 import com.example.bootcampmealapp.base.BaseFragment
 import com.example.bootcampmealapp.databinding.FragmentSplashBinding
+import com.google.firebase.auth.FirebaseAuth
 
 class SplashFragment : BaseFragment<FragmentSplashBinding>(FragmentSplashBinding::inflate) {
     private val splashViewModel: SplashViewModel by viewModels()
@@ -24,11 +25,22 @@ class SplashFragment : BaseFragment<FragmentSplashBinding>(FragmentSplashBinding
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         observe()
+
+
     }
 
     private fun observe() {
         splashViewModel.navigateToSignIn.observe(viewLifecycleOwner) {
-            findNavController().navigate(R.id.signInFragment)
+            val currentUser = FirebaseAuth.getInstance().currentUser
+            if(currentUser != null) {
+                val action = SplashFragmentDirections.actionSplashFragmentToHomeFragment2()
+                findNavController().navigate(action)
+            }
+            else {
+                val action = SplashFragmentDirections.actionSplashFragmentToSignInFragment()
+                findNavController().navigate(action)
+            }
+
         }
     }
 

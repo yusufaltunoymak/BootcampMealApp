@@ -88,7 +88,7 @@
         android:background="@drawable/custom_gradient_button_selector"
         android:text="@string/sign_in_text"
         android:textAllCaps="false"
-        android:textColor="@color/black"
+        android:textColor="@color/white"
         android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="@+id/passwordTextInput"
         app:layout_constraintStart_toStartOf="@+id/passwordTextInput"

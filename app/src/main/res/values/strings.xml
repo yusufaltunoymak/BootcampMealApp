@@ -26,5 +26,9 @@
     <string name="price_text">Fiyat: </string>
     <string name="quantity_text">Adet: </string>
     <string name="price_format">%d \₺</string>
+    <string name="add_to_favorite_text">Favorilere eklendi!</string>
+    <string name="delete_from_favorite_text">Favorilerden silindi!</string>
+    <string name="are_you_sure_exit">Are You Sure For Exit ?</string>
+    <string name="no_text">NO</string>
 
 </resources>

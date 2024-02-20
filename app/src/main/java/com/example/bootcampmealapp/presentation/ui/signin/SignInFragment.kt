@@ -21,6 +21,7 @@ class SignInFragment : BaseFragment<FragmentSignInBinding>(FragmentSignInBinding
     private val signInViewModel : SignInViewModel by viewModels()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        observeState()
 
         binding.apply {
             loginButton.isEnabled = false
@@ -40,25 +41,18 @@ class SignInFragment : BaseFragment<FragmentSignInBinding>(FragmentSignInBinding
             }
 
         }
-        observeState()
 
         super.onViewCreated(view, savedInstanceState)
     }
 
+
     private fun observeState() {
         viewLifecycleOwner.lifecycleScope.launch {
             signInViewModel.signInViewState.collect {viewState ->
-                viewState.isSignedIn?.let {
-                    if(it) {
-                        findNavController().navigate(R.id.homeFragment2)
-
-                    }
-                }
                 viewState.currentUser?.let {
-                    Log.d("user",it.email.toString())
-                    if(it.id != null) {
-                        findNavController().navigate(R.id.homeFragment2)
-                    }
+                    Log.d("userasdasd",it.email.toString())
+                    val action = SignInFragmentDirections.actionSignInFragmentToHomeFragment2()
+                    findNavController().navigate(action)
                 }
                 viewState.errorMessage?.let{
                     CustomAlertDialogBuilder.createErrorDialog(

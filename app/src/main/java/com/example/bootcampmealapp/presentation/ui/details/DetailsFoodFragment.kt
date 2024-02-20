@@ -2,6 +2,7 @@ package com.example.bootcampmealapp.presentation.ui.details
 
 import android.os.Bundle
 import android.view.View
+import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
@@ -12,6 +13,7 @@ import com.example.bootcampmealapp.base.BaseFragment
 import com.example.bootcampmealapp.databinding.FragmentDetailsFoodBinding
 import com.example.bootcampmealapp.util.Constants
 import com.example.bootcampmealapp.util.components.CustomAlertDialogBuilder
+import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -35,6 +37,10 @@ class DetailsFoodFragment : BaseFragment<FragmentDetailsFoodBinding>(FragmentDet
             foodDetailPrice.text = getString(R.string.price_format,food.foodPrice.toInt())
             totalPriceText.text = getString(R.string.price_format,food.foodPrice.toInt())
 
+            backIcon.setOnClickListener {
+                findNavController().navigate(R.id.homeFragment2)
+            }
+
             incrementButton.setOnClickListener {
               foodDetailsViewModel.incrementQuantity()
             }
@@ -51,6 +57,14 @@ class DetailsFoodFragment : BaseFragment<FragmentDetailsFoodBinding>(FragmentDet
         }
         foodDetailsViewModel.favState.observe(viewLifecycleOwner){
             binding.favoriteIcon.isSelected = it.first
+            if(it.second) {
+                    if(it.first) {
+                        Snackbar.make(view,getString(R.string.add_to_favorite_text),Toast.LENGTH_SHORT).show()
+                    }
+                    else {
+                        Snackbar.make(view,getString(R.string.delete_from_favorite_text),Toast.LENGTH_SHORT).show()
+                    }
+            }
         }
 
     }

@@ -7,7 +7,7 @@
     android:layout_height="wrap_content"
     android:layout_marginBottom="8dp">
 
-    <androidx.cardview.widget.CardView
+    <com.google.android.material.card.MaterialCardView
         android:id="@+id/foodBasketCard"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -16,6 +16,9 @@
         app:cardCornerRadius="8dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
+        app:strokeColor="@color/DarkOrange"
+        app:strokeWidth="2dp"
+        android:layout_margin="5dp"
         app:layout_constraintTop_toTopOf="parent">
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -94,6 +97,6 @@
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-    </androidx.cardview.widget.CardView>
+    </com.google.android.material.card.MaterialCardView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

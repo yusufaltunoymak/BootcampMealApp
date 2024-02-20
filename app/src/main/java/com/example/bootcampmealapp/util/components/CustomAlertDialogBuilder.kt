@@ -13,11 +13,35 @@ class CustomAlertDialogBuilder {
         fun alertPositiveOnClickListener(block: () -> Unit) {
             alertPositiveOnClickListener = block
         }
-        fun createDialog(context: Context, message: String, positiveButtonText: String, positiveButtonClickListener:(()->Unit)? = null) {
+        fun createDialog(
+            context: Context,
+            message: String,
+            positiveButtonText: String,
+            positiveButtonClickListener: (() -> Unit)? = null
+        ) {
             val builder = MaterialAlertDialogBuilder(context)
             builder.setMessage(message)
             builder.setPositiveButton(positiveButtonText) { _, _ ->
                 positiveButtonClickListener?.invoke()
+            }
+            builder.show()
+        }
+
+        fun createDialog(
+            context: Context,
+            message: String,
+            positiveButtonText: String,
+            negativeButtonText : String,
+            positiveButtonClickListener: (() -> Unit)?,
+            negativeButtonClickListener: (() -> Unit)? = null
+        ) {
+            val builder = MaterialAlertDialogBuilder(context)
+            builder.setMessage(message)
+            builder.setPositiveButton(positiveButtonText) { _, _ ->
+                positiveButtonClickListener?.invoke()
+            }
+            builder.setNegativeButton(negativeButtonText) { _, _ ->
+                negativeButtonClickListener?.invoke()
             }
             builder.show()
         }

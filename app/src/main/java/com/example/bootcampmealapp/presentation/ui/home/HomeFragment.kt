@@ -7,8 +7,10 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
+import com.example.bootcampmealapp.R
 import com.example.bootcampmealapp.base.BaseFragment
 import com.example.bootcampmealapp.databinding.FragmentHomeBinding
+import com.example.bootcampmealapp.util.components.CustomAlertDialogBuilder
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -46,6 +48,19 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
                     return true
                 }
             })
+            logOutIcon.setOnClickListener {
+                CustomAlertDialogBuilder.createDialog(
+                   context = requireContext(),
+                    message = getString(R.string.are_you_sure_exit),
+                   positiveButtonText =  getString(R.string.okText),
+                    negativeButtonText = getString(R.string.no_text),
+                    positiveButtonClickListener = {
+                        homeViewModel.signOut()
+                        findNavController().navigate(R.id.signInFragment)
+                    }
+                    ) { }
+
+            }
         }
     }
     private fun observeData() {
