@@ -20,6 +20,7 @@ class DetailsFoodFragment : BaseFragment<FragmentDetailsFoodBinding>(FragmentDet
     private val args : DetailsFoodFragmentArgs by navArgs()
     private val foodDetailsViewModel : FoodDetailsViewModel by viewModels()
 
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val food = args.food
@@ -31,8 +32,8 @@ class DetailsFoodFragment : BaseFragment<FragmentDetailsFoodBinding>(FragmentDet
                 .load(Constants.IMAGE_BASE_URL+food.foodImageUrl)
                 .into(foodDetailImage)
             foodDetailName.text = food.foodName
-            foodDetailPrice.text = food.foodPrice
-            totalPriceText.text = food.foodPrice
+            foodDetailPrice.text = getString(R.string.price_format,food.foodPrice.toInt())
+            totalPriceText.text = getString(R.string.price_format,food.foodPrice.toInt())
 
             incrementButton.setOnClickListener {
               foodDetailsViewModel.incrementQuantity()
@@ -45,10 +46,13 @@ class DetailsFoodFragment : BaseFragment<FragmentDetailsFoodBinding>(FragmentDet
             }
             favoriteIcon.setOnClickListener {
                 foodDetailsViewModel.addToFavorite(food)
-                favoriteIcon.isSelected = true
             }
 
         }
+        foodDetailsViewModel.favState.observe(viewLifecycleOwner){
+            binding.favoriteIcon.isSelected = it.first
+        }
+
     }
 
     private fun observeData() {
@@ -56,12 +60,14 @@ class DetailsFoodFragment : BaseFragment<FragmentDetailsFoodBinding>(FragmentDet
             foodDetailsViewModel.viewState.collect { viewState ->
                 viewState.apply {
                     binding.foodCountText.text = piece.toString()
-                    binding.totalPriceText.text = "${price} ₺"
+                    binding.totalPriceText.text = getString(R.string.price_format, price)
                     isAddedBasket?.let {
                         if(it == 1) {
                             findNavController().navigate(R.id.homeFragment2)
                         }
                     }
+                    binding.favoriteIcon.isSelected = viewState.isFavorited
+
                     isCompleted.let {
                         if(it) {
                             CustomAlertDialogBuilder.createDialog(

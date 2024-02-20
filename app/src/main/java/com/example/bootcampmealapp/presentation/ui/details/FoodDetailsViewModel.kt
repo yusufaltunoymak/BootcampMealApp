@@ -2,6 +2,7 @@ package com.example.bootcampmealapp.presentation.ui.details
 
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.bootcampmealapp.data.local.FoodEntity
@@ -9,6 +10,8 @@ import com.example.bootcampmealapp.data.response.ResponseStatus
 import com.example.bootcampmealapp.domain.model.remote.FoodResponse
 import com.example.bootcampmealapp.domain.model.remote.basket.BasketFoods
 import com.example.bootcampmealapp.domain.usecases.AddToBasketUseCase
+import com.example.bootcampmealapp.domain.usecases.CheckFavoriteUseCase
+import com.example.bootcampmealapp.domain.usecases.DeleteFoodFromDatabaseUseCase
 import com.example.bootcampmealapp.domain.usecases.GetFoodBasketUseCase
 import com.example.bootcampmealapp.domain.usecases.InsertFoodToDatabaseUseCase
 import com.example.bootcampmealapp.util.Constants
@@ -24,13 +27,37 @@ import javax.inject.Inject
 class FoodDetailsViewModel @Inject constructor(
     private val addToBasketUseCase: AddToBasketUseCase,
     private val getFoodBasketUseCase: GetFoodBasketUseCase,
-    private val insertFoodToDatabaseUseCase: InsertFoodToDatabaseUseCase
-
+    private val insertFoodToDatabaseUseCase: InsertFoodToDatabaseUseCase,
+    private val deleteFoodFromDatabaseUseCase: DeleteFoodFromDatabaseUseCase,
+    private val savedStateHandle: SavedStateHandle,
+    private val checkFavoriteUseCase: CheckFavoriteUseCase
 ) : ViewModel() {
     private var _viewState = MutableStateFlow(FoodDetailViewState())
     val viewState = _viewState.asStateFlow()
     private var basketList: MutableLiveData<List<BasketFoods>> = MutableLiveData()
 
+    private var _favState: MutableLiveData<Pair<Boolean,Boolean>> = MutableLiveData()
+    val favState get() = _favState
+
+    init {
+        getFoodResponseModel()
+    }
+
+    private fun getFoodResponseModel(){
+        savedStateHandle.get<FoodResponse>("food")?.let {
+            _viewState.value.foods = it
+            _favState.value =Pair(it.isFavorited,false)
+            checkIfFoodIsFavorite(it.foodId.toInt())
+
+        }
+    }
+    private fun checkIfFoodIsFavorite(foodId: Int) {
+        viewModelScope.launch {
+            val isFavorite = checkFavoriteUseCase.invoke(foodId) > 0
+            _favState.value = Pair(isFavorite, false)
+
+        }
+    }
 
     fun initMeal(food: FoodResponse) {
         _viewState.update {
@@ -156,20 +183,23 @@ class FoodDetailsViewModel @Inject constructor(
         }
     }
 
-    fun addToFavorite(foods : FoodResponse) {
-        viewModelScope.launch {
-            val foodEntity = FoodEntity(
-                id = 0,
-                foodName =foods.foodName,
-                foodPrice = foods.foodPrice,
-                foodImageUrl = foods.foodImageUrl
-            )
-            _viewState.update {viewState ->
-                viewState.copy(
-                    isFavorited = true
-                )
+        fun addToFavorite(foods : FoodResponse) {
+            viewModelScope.launch {
+                foods.let {
+                    if (_favState.value?.first == true) {
+                        deleteFoodFromDatabaseUseCase.invoke(it.foodId.toInt())
+                    } else {
+                        insertFoodToDatabaseUseCase.invoke(
+                            FoodEntity(
+                                it.foodId.toInt(),
+                                it.foodName,
+                                it.foodPrice,
+                                it.foodImageUrl
+                            )
+                        )
+                    }
+                    _favState.value = Pair(!_favState.value?.first!!, true)
+                }
             }
-            insertFoodToDatabaseUseCase.invoke(foodEntity)
         }
-    }
 }

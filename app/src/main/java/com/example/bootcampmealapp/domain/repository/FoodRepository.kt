@@ -26,5 +26,7 @@ interface FoodRepository {
 
     suspend fun deleteFoodFromDatabase(foodId: Int)
 
+    suspend fun checkIsFavoriteFood(foodId : Int) : Int
+
 
 }

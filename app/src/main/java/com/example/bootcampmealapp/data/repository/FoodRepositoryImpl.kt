@@ -138,4 +138,7 @@ class FoodRepositoryImpl @Inject constructor(private val api : FoodApi,private v
         foodDatabase.foodDao().delete(deleteFood)
     }
 
+    override suspend fun checkIsFavoriteFood(foodId : Int) = foodDatabase.foodDao().isFoodInFavorites(foodId)
+
+
 }

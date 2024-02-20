@@ -17,4 +17,8 @@ interface FoodDao {
 
     @Delete
     suspend fun delete(foodEntity: FoodEntity)
+
+
+    @Query("SELECT COUNT(*) FROM food_table WHERE id = :foodId")
+    suspend fun isFoodInFavorites(foodId: Int): Int
 }

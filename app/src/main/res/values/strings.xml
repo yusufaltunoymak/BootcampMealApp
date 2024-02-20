@@ -25,5 +25,6 @@
     <string name="okText">OK</string>
     <string name="price_text">Fiyat: </string>
     <string name="quantity_text">Adet: </string>
+    <string name="price_format">%d \₺</string>
 
 </resources>

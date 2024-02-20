@@ -11,5 +11,6 @@ data class FoodResponse(
     @SerializedName("yemek_resim_adi")
     val foodImageUrl: String,
     @SerializedName("yemek_id")
-    val foodId: String
+    val foodId: String,
+    var isFavorited : Boolean = false
 ) : Serializable
