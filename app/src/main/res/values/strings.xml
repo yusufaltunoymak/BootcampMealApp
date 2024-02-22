@@ -30,5 +30,7 @@
     <string name="delete_from_favorite_text">Favorilerden silindi!</string>
     <string name="are_you_sure_exit">Are You Sure For Exit ?</string>
     <string name="no_text">NO</string>
+    <string name="total_price_text">Total : %d \₺</string>
+    <string name="complete_order_text">Complete Order</string>
 
 </resources>

@@ -16,7 +16,6 @@ import com.example.bootcampmealapp.domain.usecases.GetFoodBasketUseCase
 import com.example.bootcampmealapp.domain.usecases.InsertFoodToDatabaseUseCase
 import com.example.bootcampmealapp.util.Constants
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
@@ -151,35 +150,17 @@ class FoodDetailsViewModel @Inject constructor(
         }
     }
 
-        private fun isAlreadyBasket(foodName: String) : Boolean {
-        val basketItems = basketList.value.orEmpty()
-        return basketItems.any { it.foodName == foodName }
-
-    }
-
     fun addToCart() {
         val meal = viewState.value.foods ?: return
         viewModelScope.launch {
             getFoodForBasket()
-            delay(1000)
-            if (isAlreadyBasket(meal.foodName)) {
                 Log.d("aynıürün","aynı")
-
-                _viewState.update {viewState ->
-                    viewState.copy(
-                        isCompleted = true
+                    addToBasket(
+                        foodName = meal.foodName,
+                        foodImageName = meal.foodImageUrl,
+                        foodPrice = meal.foodPrice.toInt(),
+                        quantity = _viewState.value.piece
                     )
-                }
-            }
-            else {
-                Log.d("buraya","buraya")
-                addToBasket(
-                    foodName = meal.foodName,
-                    foodImageName = meal.foodImageUrl,
-                    foodPrice = meal.foodPrice.toInt(),
-                    quantity = _viewState.value.piece
-                )
-            }
         }
     }
 

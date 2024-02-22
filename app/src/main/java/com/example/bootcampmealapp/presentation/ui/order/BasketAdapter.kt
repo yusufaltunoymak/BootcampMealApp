@@ -19,7 +19,7 @@ class BasketAdapter(
         fun bind(item : BasketFoods) {
             binding.apply {
                 foodBasketName.text = item.foodName
-                val priceText = "${context.getString(R.string.price_text)} ${item.foodPrice} ₺"
+                val priceText = "${context.getString(R.string.price_text)} ${item.foodPrice!!.toInt() * item.foodPiece!!.toInt()} ₺"
                 foodBasketPrice.text = priceText
                 val quantityText = "${context.getString(R.string.quantity_text)} ${item.foodPiece}"
                 foodBasketQuantity.text = quantityText

@@ -27,10 +27,28 @@ class OrderViewModel @Inject constructor(
                 when(response.status) {
                     ResponseStatus.LOADING -> {}
                     ResponseStatus.SUCCESS -> {
-                        _viewState.update { viewState ->
-                            viewState.copy(
-                                basketFoods = response.data
-                            )
+                        response.data?.let { foodList ->
+                            val groupedFoodList = foodList
+                                .groupBy { it.foodName }
+                                .map { (foodName, group) ->
+                                    val totalQuantity =
+                                        group.sumOf { it.foodPiece?.toIntOrNull() ?: 0 }
+                                    val totalPrice =
+                                        group.sumOf { it.foodPrice?.toIntOrNull() ?: 0 }
+                                    group.first().copy(
+                                        foodPiece = totalQuantity.toString(),
+                                        foodPrice = totalPrice.toString()
+
+                                    )
+                                }
+                            _viewState.update { viewState ->
+                                viewState.copy(
+                                    isLoading = false,
+                                    totalPrice = response.data.sumOf { it.foodPrice?.toInt()
+                                        ?.times(it.foodPiece!!.toInt()) ?: 0 },
+                                    basketFoods = groupedFoodList
+                                )
+                            }
                         }
                     }
                     else -> {}
@@ -39,6 +57,7 @@ class OrderViewModel @Inject constructor(
             }
         }
     }
+
 
     fun deleteFoodFromBasket(foodBasketId: Int, userName: String = Constants.USERNAME) {
         viewModelScope.launch {
@@ -55,9 +74,14 @@ class OrderViewModel @Inject constructor(
                         _viewState.update { viewState ->
                             val updatedList = viewState.basketFoods?.toMutableList()
                             updatedList?.removeAll { it.id == foodBasketId.toString() }
+                            val totalPrice = updatedList?.sumOf {
+                                it.foodPrice?.toInt()
+                                    ?.times(it.foodPiece?.toInt()!!) ?: 0
+                            }
                             viewState.copy(
                                 basketFoods = updatedList,
-                                isLoading = false
+                                isLoading = false,
+                                totalPrice = totalPrice
                             )
                         }
 //                        getFoodBasket(userName)

@@ -6,6 +6,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.bootcampmealapp.R
 import com.example.bootcampmealapp.base.BaseFragment
 import com.example.bootcampmealapp.databinding.FragmentOrderBinding
 import dagger.hilt.android.AndroidEntryPoint
@@ -38,7 +39,11 @@ class OrderFragment : BaseFragment<FragmentOrderBinding>(FragmentOrderBinding::i
                 viewState.basketFoods?.let {
                     basketAdapter.submitList(it)
                 }
+                viewState.totalPrice?.let {
+                    binding.totalTv.text = getString(R.string.total_price_text,it)
+                }
             }
         }
     }
+
 }
